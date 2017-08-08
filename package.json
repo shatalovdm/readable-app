@@ -1,0 +1,11 @@
+{
+  "name": "readable-project",
+  "version": "1.0.0",
+  "description": "Publish posts and comments for them",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitry Shatalov",
+  "license": "MIT"
+}
