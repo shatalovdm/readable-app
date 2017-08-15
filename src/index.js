@@ -1,19 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { Provider } from 'react-redux';
-// import { createStore, applyMiddleware } from 'redux';
-// import { BrowserRouter, Route, Switch } from 'react-router-dom';
-// import reducers from './reducers';
-// import promise from 'redux-promise';
-// import Property from './components/Property';
-// import NeighborhoodMap from './components/NeighborhoodMap';
-// import '../css/map.css';
-// import '../css/slick.css';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import reducers from './reducers';
+import thunk from 'redux-thunk';
+import App from './components/App';
 import '../style/style.css';
 
-
-console.log('hey there!!');
+const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 ReactDOM.render(
-  <div>Hello!</div>
+  <Provider store={createStoreWithMiddleware(reducers)}>
+    <BrowserRouter>
+      <div>
+        <Switch>
+          <Route path="/" component={App} />
+        </Switch>
+      </div>
+    </BrowserRouter>
+  </Provider>
   , document.querySelector('#root'));

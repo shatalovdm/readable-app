@@ -1,6 +1,9 @@
-h3 {
+.navbar-header > h3 {
 	margin: 10px 0 10px;
 	position: absolute;
     width: 100%;
     text-align: center;
+}
+main {
+	margin-top: 50px;
 }
