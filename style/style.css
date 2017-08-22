@@ -7,3 +7,8 @@
 main {
 	margin-top: 50px;
 }
+
+.material-icons.md-36 {
+	cursor: pointer;
+	font-size: 36px; 
+}

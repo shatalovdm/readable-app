@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const FETCH_POSTS_CATEGORIES = 'fetch_posts_categories';
 export const FETCH_POSTS_CATEGORY = 'fetch_posts_category';
 export const FETCH_POSTS = 'fetch_posts';
@@ -15,43 +17,40 @@ export const DELETE_COMMENT = 'delete_comment';
 
 const AUTH_KEY = 'banana';
 
+const instance = axios.create({
+  baseURL: 'https://cryptic-depths-44463.herokuapp.com/',
+  timeout: 3000,
+  headers: { 'Authorization': AUTH_KEY }
+});
+
 export function fetchPostsCategories() {
-    const request = fetch('/categories', { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+    const result = instance.get('/categories');
     return (dispatch) => {
-	    request.then(response => response.json()
-	    ).then(categories => 
-	      	dispatch({type: FETCH_POSTS_CATEGORIES, payload: categories})
-	    );
+	    result.then(response => dispatch({type: FETCH_POSTS_CATEGORIES, payload: response.data}));
     };
 }
 
 export function fetchPostsCategory(category) {
-	const request = fetch(`/${category}/posts`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.get(`/${category}/posts`);
     return (dispatch) => {
-	    request.then(response => response.json()
-	    ).then(posts => 
-	      	dispatch({type: FETCH_POSTS_CATEGORY, payload: posts})
-	    );
+	    result.then(response => dispatch({type: FETCH_POSTS_CATEGORY, payload: response.data}));
     };
 }
 
 export function fetchPosts() {
-	const request = fetch('/posts', { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.get('/posts');
     return (dispatch) => {
-	    request.then(response => response.json()
-	    ).then(posts => 
-	      	dispatch({type: FETCH_POSTS, payload: posts})
-	    );
+	    result.then(response => dispatch({type: FETCH_POSTS, payload: response.data}));
     };
 }
 
-export function fetchPost(id) {
-	const request = fetch(`/posts/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+export function fetchPost(id, callback) {
+	const result = fetch(`/api/posts/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(post => 
 	      	dispatch({type: FETCH_POST, payload: post})
-	    );
+	    ).then(() => callback());
     };
 }
 
@@ -64,9 +63,9 @@ export function createPost(values) {
         owner: values.owner,
         category: values.category
 	};
-	const request = fetch('/posts', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch('/api/posts', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(post => 
 	      	dispatch({type: CREATE_POST, payload: post})
 	    );
@@ -74,10 +73,10 @@ export function createPost(values) {
 }
 
 export function votePost(id, option) {
-	var data = { option };
-	const request = fetch(`/posts/${id}`, { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	var data = {option: option};
+	const result = fetch(`/api/posts/${id}`, { method: 'POST', body: JSON.stringify({option: option}), headers: { 'Authorization': AUTH_KEY, 'Content-Type': "application/json" }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(post => 
 	      	dispatch({type: VOTE_POST, payload: post})
 	    );
@@ -90,9 +89,9 @@ export function editPost(id, values) {
 		title: values.title,
 		body: values.body 
 	};
-	const request = fetch(`/posts/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/posts/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(post => 
 	      	dispatch({type: EDIT_POST, payload: post})
 	    );
@@ -100,9 +99,9 @@ export function editPost(id, values) {
 }
 
 export function deletePost(id) {
-	const request = fetch(`/posts/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/posts/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(post => 
 	      	dispatch({type: DELETE_POST, payload: post})
 	    );
@@ -110,19 +109,16 @@ export function deletePost(id) {
 }
 
 export function fetchComments(id) {
-	const request = fetch(`/posts/${id}/comments`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.get(`/posts/${id}/comments`);
     return (dispatch) => {
-	    request.then(response => response.json()
-	    ).then(comments => 
-	      	dispatch({type: FETCH_COMMENTS, payload: comments})
-	    );
+	    result.then(response => dispatch({type: FETCH_COMMENTS, payload: response.data}));
     };
 }
 
 export function fetchComment(id) {
-	const request = fetch(`/comments/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/comments/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(comment => 
 	      	dispatch({type: FETCH_COMMENT, payload: comment})
 	    );
@@ -137,9 +133,9 @@ export function createComment(id, values) {
         owner: values.owner,
         parentId: id
 	}
-	const request = fetch('/comments', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch('/api/comments', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(comment => 
 	      	dispatch({type: CREATE_COMMENT, payload: comment})
 	    );
@@ -148,9 +144,9 @@ export function createComment(id, values) {
 
 export function voteComment(id, option) {
 	var data = { option };
-	const request = fetch(`/comments/${id}`, { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/comments/${id}`, { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(comment => 
 	      	dispatch({type: VOTE_COMMENT, payload: comment})
 	    );
@@ -162,9 +158,9 @@ export function editComment(id, body) {
 		timestamp: Date.now(),
 		body 
 	};
-	const request = fetch(`/comments/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/comments/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(comment => 
 	      	dispatch({type: EDIT_COMMENT, payload: comment})
 	    );
@@ -172,9 +168,9 @@ export function editComment(id, body) {
 }
 
 export function deleteComment(id) {
-	const request = fetch(`/comments/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
+	const result = fetch(`/api/comments/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
     return (dispatch) => {
-	    request.then(response => response.json()
+	    result.then(response => response.json()
 	    ).then(comment => 
 	      	dispatch({type: DELETE_COMMENT, payload: comment})
 	    );

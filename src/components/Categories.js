@@ -1,9 +1,14 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchPostsCategory } from '../actions';
+import { fetchPostsCategories } from '../actions';
 
 class Categories extends Component {
+
+	componentDidMount() {
+		this.props.fetchPostsCategories();
+	}
 
 	renderCategories() {
 		return _.map(this.props.categories, category => {
@@ -27,4 +32,8 @@ class Categories extends Component {
 	}
 }
 
-export default Categories;
+function mapStateToProps(state) {
+	return { categories: state.categories }
+}
+
+export default connect(mapStateToProps, { fetchPostsCategories })(Categories);
