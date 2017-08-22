@@ -13,20 +13,31 @@ class Categories extends Component {
 	renderCategories() {
 		return _.map(this.props.categories, category => {
 			return (
-				<Link key={category.name} className="list-group-item" to={`/categories/${category.path}`}>
-					{category.name}
-				</Link>
+				<li className="list-group-item">
+					<Link key={category.name} to={`/categories/${category.path}`}>
+						{category.name}
+					</Link>
+				</li>
 			);
 		});
 	}
 
 	render() {
 		return (
-			<div>
-				<h4>Categories</h4>
-				<div className="list-group">
-					{this.renderCategories()}
+			<div className="panel panel-default">
+				<div className="panel-heading">
+				    <h3 className="panel-title">Categories</h3>
 				</div>
+				<div className="panel-body">
+					<Link to="/">
+						<button className="btn btn-default">
+							Show All
+						</button>
+					</Link>
+				</div>
+				<ul className="list-group">
+					{this.renderCategories()}
+				</ul>
 			</div>
 		);
 	}

@@ -19,7 +19,7 @@ const AUTH_KEY = 'banana';
 
 const instance = axios.create({
   baseURL: 'https://cryptic-depths-44463.herokuapp.com/',
-  timeout: 3000,
+  timeout: 5000,
   headers: { 'Authorization': AUTH_KEY }
 });
 
@@ -44,13 +44,10 @@ export function fetchPosts() {
     };
 }
 
-export function fetchPost(id, callback) {
-	const result = fetch(`/api/posts/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+export function fetchPost(id) {
+	const result = instance.get(`/posts/${id}`);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(post => 
-	      	dispatch({type: FETCH_POST, payload: post})
-	    ).then(() => callback());
+	    result.then(response => dispatch({type: FETCH_POST, payload: response.data}));
     };
 }
 
@@ -74,12 +71,9 @@ export function createPost(values) {
 
 export function votePost(id, option) {
 	var data = {option: option};
-	const result = fetch(`/api/posts/${id}`, { method: 'POST', body: JSON.stringify({option: option}), headers: { 'Authorization': AUTH_KEY, 'Content-Type': "application/json" }});
+	const result = instance.post(`/posts/${id}`, data);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(post => 
-	      	dispatch({type: VOTE_POST, payload: post})
-	    );
+	    result.then(response => dispatch({type: VOTE_POST, payload: response.data}));
     };
 }
 

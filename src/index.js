@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import reducers from './reducers';
 import thunk from 'redux-thunk';
 import App from './components/App';
+import PostView from './components/PostView';
 import '../style/style.css';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
@@ -17,6 +18,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/categories/:category" component={App} />
+          <Route path="/posts/:id" component={PostView} />
         </Switch>
       </div>
     </BrowserRouter>

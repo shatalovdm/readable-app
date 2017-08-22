@@ -4,8 +4,19 @@ import { votePost, fetchComments } from '../actions';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 
-class Post extends Component {
+class PostIndex extends Component {
 
+	renderTitle() {
+		const { title, id} = this.props.post;
+		if (this.props.includeLink) {
+			return (
+				<Link to={`posts/${id}`} > 
+					<h5 className="list-group-item-heading">{title}</h5>
+				</Link>
+			);
+		}
+		return <h5 className="list-group-item-heading">{title}</h5>;
+	}
 
 	voteUp() {
 		this.props.votePost(this.props.post.id, "upVote");
@@ -14,11 +25,11 @@ class Post extends Component {
 		this.props.votePost(this.props.post.id, "downVote");
 	}
 	componentDidMount() {
-			this.props.fetchComments(this.props.post.id);
+		this.props.fetchComments(this.props.post.id);
 	}
 
 	render() {
-		const { title, timestamp, body, author, category, voteScore } = this.props.post;
+		const {timestamp, body, author, category, voteScore} = this.props.post;
 		return (
 			<div className="row">
 				<div className="col-xs-1 text-center">
@@ -27,19 +38,24 @@ class Post extends Component {
 					<i onClick={this.voteDown.bind(this)} className="material-icons md-36">keyboard_arrow_down</i>
 				</div>
 				<div className="col-xs-11">
-					<Link to={`posts/${this.props.id}`} > 
-						<h5 className="list-group-item-heading">{title}</h5>
-					</Link>
+					{this.renderTitle()}
 					<p className="list-group-item-text">{body}</p>
-					<p className="text-right">{_.keys(this.props.comments).length} Comment(s)</p>
+					<div className="row">
+						<div className="col-md-3 col-md-offset-9">
+							<ul className="list-inline">
+							  	<li>by {author}</li>
+							  	<li>{(new Date(timestamp)).toDateString()}</li>
+							  	<li>{_.keys(this.props.comments).length} Comment(s)</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
 function mapStateToProps(state, ownProps) {
-
 	return { comments:  _.pickBy(state.comments, function(o) { return o.parentId == ownProps.post.id; }) }
 }
 
-export default connect(mapStateToProps, { votePost, fetchComments })(Post);
+export default connect(mapStateToProps, { votePost, fetchComments })(PostIndex);

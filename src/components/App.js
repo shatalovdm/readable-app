@@ -9,18 +9,19 @@ class App extends Component {
 
 	renderPosts() {
 		const {posts} = this.props;
-		if ((_.keys(posts).length === 0) && this.props.match.params.category) {
-			return <div>Could not find any post for this category.</div>;
-		} else if (_.keys(posts).length === 0) {
-			return <div>Loading...</div>;
-		} else {
-			return <Posts posts={this.props.posts}/>;
+		if (_.keys(posts).length === 0) {
+			if (this.props.match.params.category) {
+				return <div>Could not find any post for this category.</div>;
+			} else {
+				return <div>Loading...</div>;
+			}
+
 		}
+		return <Posts posts={posts}/>;
 	}
 
 	componentDidMount() {
 		const {category} = this.props.match.params;
-		console.log(category);
 		if (category) {
 			this.props.fetchPostsCategory(category);	
 		} else {
@@ -29,13 +30,17 @@ class App extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (this.props.match.params.category != nextProps.match.params.category) {
-			this.props.fetchPostsCategory(nextProps.match.params.category);	
+		const {category} = nextProps.match.params;
+		if (this.props.match.params.category != category) {
+			if (category) {
+				this.props.fetchPostsCategory(category);	
+			} else {
+				this.props.fetchPosts();
+			}
 		}
 	}
 
 	render() {
-		console.log('oals');
 		return (
 			<div className="row">
 				<div className="col-md-8">

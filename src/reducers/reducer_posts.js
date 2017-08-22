@@ -6,7 +6,6 @@ export default function(state = {}, action) {
 		case FETCH_POSTS:
 			return _.mapKeys(action.payload, 'id');
 		case FETCH_POSTS_CATEGORY:
-			console.log(action.payload)
 			return _.mapKeys(action.payload, 'id');
 		case FETCH_POST:
 			return { ...state, [action.payload.id]: action.payload };
