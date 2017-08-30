@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchComments } from '../actions';
+import { fetchComments, deleteComment } from '../actions';
 import { connect } from 'react-redux';
 import Item from './Item';
 import NewComment from './NewComment';
@@ -20,11 +20,11 @@ class Comments extends Component {
 					<ul className="list-inline pull-right">
 					  	<li>
 					  		<Link to="/edit">
-					  			<button className="btn btn-default">Edit</button>
+					  			<button className="btn btn-primary">Edit</button>
 					  		</Link>
 					  	</li>
 					  	<li>
-					  		<button className="btn btn-default">Delete</button>
+					  		<button onClick={() => this.props.deleteComment(comment.id)} className="btn btn-danger">Delete</button>
 					  	</li>
 					</ul>
 					<Item item={comment} includeLink={false}/>
@@ -44,16 +44,16 @@ class Comments extends Component {
 				    <h3 className="panel-title">Comments</h3>
 				</div>
 				<div className="panel-body">
-					<div className="pull-left">
+					<NewComment parentId={this.props.postId}/>
+				</div>
+				<ul className="list-group">
+					<li className="list-group-item" key="Sort by">
 						<span>Sort By </span>
 						<div className="btn-group" role="group" aria-label="Sort By">
 						  	<button onClick={(e) => this.setState({	sortBy: e.target.value })} value="voteScore" type="button" className="btn btn-default">Vote</button>
 						  	<button onClick={(e) => this.setState({	sortBy: e.target.value })} value="timestamp" type="button" className="btn btn-default">Time</button>
 						</div>
-					</div>
-				</div>
-				<ul className="list-group">
-					<NewComment parentId={this.props.postId}/>
+					</li>
 					{this.renderComments()}
 				</ul>
 			</div>
@@ -61,8 +61,8 @@ class Comments extends Component {
 	}
 }
 
-function mapStateToProps(state) {
-	return { comments: state.comments }
+function mapStateToProps(state, ownProps) {
+	return { comments: _.pickBy(state.comments, function(o) { return o.parentId == ownProps.postId }) }
 }
 
-export default connect(mapStateToProps, { fetchComments })(Comments);
+export default connect(mapStateToProps, { fetchComments, deleteComment })(Comments);

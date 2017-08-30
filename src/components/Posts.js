@@ -12,11 +12,13 @@ export default class Posts extends Component {
 	renderPosts() {
 		const posts = _.sortBy(this.props.posts, this.state.sortBy).reverse();
 		return posts.map(post => {
-			return (
-				<li className="list-group-item" key={post.id}>
-					<Item item={post} includeLink={true}/>
-				</li>
-			);
+			if (!post.deleted) {
+				return (
+					<li className="list-group-item" key={post.id}>
+						<Item item={post} includeLink={true}/>
+					</li>
+				);
+			}
 		});
 	}
 

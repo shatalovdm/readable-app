@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPost } from '../actions';
+import { fetchPost, deletePost } from '../actions';
 import Item from './Item';
 import Comments from './Comments';
 import { Link } from 'react-router-dom';
@@ -8,8 +8,10 @@ import { Link } from 'react-router-dom';
 
 class PostView extends Component {
 
-	deletePost() {
-
+	onDeleteClick() {
+		this.props.deletePost(this.props.post.id, () => {
+			this.props.history.push('/');
+		});
 	}
 
 	componentDidMount() {
@@ -32,16 +34,14 @@ class PostView extends Component {
 						<ul className="list-inline pull-right">
 						  	<li>
 						  		<Link to="/edit">
-						  			<button className="btn btn-default">Edit</button>
+						  			<button className="btn btn-primary">Edit</button>
 						  		</Link>
 						  	</li>
 						  	<li>
-						  		<button onClick={this.deletePost()} className="btn btn-default">Delete</button>
+						  		<button onClick={this.onDeleteClick.bind(this)} className="btn btn-danger">Delete</button>
 						  	</li>
 						</ul>
-						<div className="row">
-							<Item item={this.props.post} includeLink={false}/>
-						</div>
+						<Item item={this.props.post} includeLink={false}/>
 					</div>
 				</div>
 				<Comments postId={this.props.post.id}/>
@@ -56,4 +56,4 @@ function mapStateToProps({ posts }, ownProps) {
 	return { post: posts[ownProps.match.params.id] }
 }
 
-export default connect(mapStateToProps, { fetchPost })(PostView);
+export default connect(mapStateToProps, { fetchPost, deletePost })(PostView);

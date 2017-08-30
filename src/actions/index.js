@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Guid from 'guid';
 
 export const FETCH_POSTS_CATEGORIES = 'fetch_posts_categories';
 export const FETCH_POSTS_CATEGORY = 'fetch_posts_category';
@@ -92,13 +93,11 @@ export function editPost(id, values) {
     };
 }
 
-export function deletePost(id) {
-	const result = fetch(`/api/posts/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
+export function deletePost(id, callback) {
+	const result = instance.delete(`/posts/${id}`);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(post => 
-	      	dispatch({type: DELETE_POST, payload: post})
-	    );
+	    result.then(response => dispatch({type: DELETE_POST, payload: response.data})
+		).then(() => callback());
     };
 }
 
@@ -121,18 +120,15 @@ export function fetchComment(id) {
 
 export function createComment(id, values) {
 	var data = {
-		id: guid(),
+		id: Guid.raw(),
         timestamp: Date.now(),
         body: values.body,
-        owner: values.owner,
+        author: values.author,
         parentId: id
 	}
-	const result = fetch('/api/comments', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.post('/comments', data);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(comment => 
-	      	dispatch({type: CREATE_COMMENT, payload: comment})
-	    );
+	    result.then(response => dispatch({type: CREATE_COMMENT, payload: response.data}));
     };
 }
 
@@ -159,11 +155,8 @@ export function editComment(id, body) {
 }
 
 export function deleteComment(id) {
-	const result = fetch(`/api/comments/${id}`, { method: 'DELETE', headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.delete(`/comments/${id}`);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(comment => 
-	      	dispatch({type: DELETE_COMMENT, payload: comment})
-	    );
+	    result.then(response => dispatch({type: DELETE_COMMENT, payload: response.data}));
     };
 }

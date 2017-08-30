@@ -10,7 +10,7 @@ class Item extends Component {
 		const { title, id} = this.props.item;
 		if (this.props.includeLink) {
 			return (
-				<Link to={`posts/${id}`} > 
+				<Link to={`/posts/${id}`} > 
 					<h5 className="list-group-item-heading">{title}</h5>
 				</Link>
 			);
