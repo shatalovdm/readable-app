@@ -17,7 +17,7 @@ class App extends Component {
 			}
 
 		}
-		return <Posts posts={posts}/>;
+		return <Posts posts={posts} />;
 	}
 
 	componentDidMount() {

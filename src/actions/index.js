@@ -137,13 +137,10 @@ export function createComment(id, values) {
 }
 
 export function voteComment(id, option) {
-	var data = { option };
-	const result = fetch(`/api/comments/${id}`, { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	var data = {option: option};
+	const result = instance.post(`/comments/${id}`, data);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(comment => 
-	      	dispatch({type: VOTE_COMMENT, payload: comment})
-	    );
+	    result.then(response => dispatch({type: VOTE_COMMENT, payload: response.data}));
     };
 }
 

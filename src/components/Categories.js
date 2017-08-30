@@ -13,8 +13,8 @@ class Categories extends Component {
 	renderCategories() {
 		return _.map(this.props.categories, category => {
 			return (
-				<li className="list-group-item">
-					<Link key={category.name} to={`/categories/${category.path}`}>
+				<li className="list-group-item" key={category.name}>
+					<Link to={`/categories/${category.path}`}>
 						{category.name}
 					</Link>
 				</li>

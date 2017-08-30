@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import PostIndex from './PostIndex';
+import Item from './Item';
+import { connect } from 'react-redux'; 
 
 export default class Posts extends Component {
 
@@ -11,10 +11,10 @@ export default class Posts extends Component {
 
 	renderPosts() {
 		const posts = _.sortBy(this.props.posts, this.state.sortBy).reverse();
-		return posts.map( post => {
+		return posts.map(post => {
 			return (
 				<li className="list-group-item" key={post.id}>
-					<PostIndex post={post} includeLink={true}/>
+					<Item item={post} includeLink={true}/>
 				</li>
 			);
 		});

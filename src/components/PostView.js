@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost } from '../actions';
-import PostIndex from './PostIndex';
-import { Link } from 'react-router-dom';
+import Item from './Item';
 import Comments from './Comments';
+import { Link } from 'react-router-dom';
 
 
 class PostView extends Component {
@@ -23,23 +23,28 @@ class PostView extends Component {
 		}
 
 		return (
-			<div className="panel panel-default">
-				<div className="panel-body">
-					<ul className="list-inline pull-right">
-					  	<li>
-					  		<Link to="/edit">
-					  			<button className="btn btn-default">Edit</button>
-					  		</Link>
-					  	</li>
-					  	<li>
-					  		<button onClick={this.deletePost()} className="btn btn-default">Delete</button>
-					  	</li>
-					</ul>
-					<div className="row">
-						<PostIndex post={this.props.post} includeLink={false}/>
+			<div>
+				<div className="panel panel-default">
+					<div className="panel-heading">
+					    <h3 className="panel-title">Post</h3>
+					</div>
+					<div className="panel-body">
+						<ul className="list-inline pull-right">
+						  	<li>
+						  		<Link to="/edit">
+						  			<button className="btn btn-default">Edit</button>
+						  		</Link>
+						  	</li>
+						  	<li>
+						  		<button onClick={this.deletePost()} className="btn btn-default">Delete</button>
+						  	</li>
+						</ul>
+						<div className="row">
+							<Item item={this.props.post} includeLink={false}/>
+						</div>
 					</div>
 				</div>
-				<Comments postId={this.props.post.id} />
+				<Comments postId={this.props.post.id}/>
 			</div>
 		);
 	}
