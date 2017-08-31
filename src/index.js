@@ -18,7 +18,8 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/categories/:category" component={App} />
-          <Route path="/posts/:id" component={PostView} />
+          <Route exact path="/posts/:postId" component={PostView} />
+          <Route path="/posts/:postId/comments/:commentId" component={PostView} />
         </Switch>
       </div>
     </BrowserRouter>

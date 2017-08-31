@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createComment } from '../actions';
+import { withRouter } from 'react-router';
+import { createComment, editComment } from '../actions';
 import { reset, Field, reduxForm } from 'redux-form';
 
-class NewComment extends Component {
+class CommentForm extends Component {
 	renderField(field) {
 		const { meta: { touched, error } } = field;
 		const className = `form-group ${touched && error ? 'has-error' : ''}`;
@@ -29,7 +30,13 @@ class NewComment extends Component {
 	}
 
 	onSubmit(values) {
-		this.props.createComment(this.props.parentId, values);
+		if (this.props.form === 'editComment') {
+			this.props.editComment(values.id, values.body, () => {
+				this.props.history.push(`/posts/${values.parentId}`);
+			});
+		} else {
+			this.props.createComment(this.props.parentId, values);
+		}
 	}
 
 	render() {
@@ -46,6 +53,7 @@ class NewComment extends Component {
 					label="Author"
 					name="author"
 					component={this.renderField}
+					disabled={ this.props.form === 'editComment' }
 				/>
 				<button type="submit" className="btn btn-primary">Submit</button>
 			</form>
@@ -66,13 +74,20 @@ function validate(values) {
 }
 
 function afterSubmit(result, dispatch) {
-	dispatch(reset('NewComment'));
+	dispatch(reset('createComment'));
 }
 
-export default reduxForm({
+export const CreateComment = reduxForm({
 	validate,
-	form: 'NewComment',
+	form: 'createComment', 
 	onSubmitSuccess: afterSubmit
 })(
-	connect(null, { createComment })(NewComment)
+	connect(null, { createComment })(CommentForm)
 );
+
+export const EditComment = withRouter(reduxForm({
+  validate,
+  form: 'editComment'
+})(
+	connect(null, { editComment })(CommentForm)
+));

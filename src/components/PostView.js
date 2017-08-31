@@ -15,8 +15,8 @@ class PostView extends Component {
 	}
 
 	componentDidMount() {
-		const {id} = this.props.match.params;
-		this.props.fetchPost(id);
+		const {postId} = this.props.match.params;
+		this.props.fetchPost(postId);
 	}
 
 	render() {
@@ -53,7 +53,7 @@ class PostView extends Component {
 }
 
 function mapStateToProps({ posts }, ownProps) {
-	return { post: posts[ownProps.match.params.id] }
+	return { post: posts[ownProps.match.params.postId] }
 }
 
 export default connect(mapStateToProps, { fetchPost, deletePost })(PostView);

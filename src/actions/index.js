@@ -20,7 +20,7 @@ const AUTH_KEY = 'banana';
 
 const instance = axios.create({
   baseURL: 'https://cryptic-depths-44463.herokuapp.com/',
-  timeout: 5000,
+  timeout: 10000,
   headers: { 'Authorization': AUTH_KEY }
 });
 
@@ -109,12 +109,9 @@ export function fetchComments(id) {
 }
 
 export function fetchComment(id) {
-	const result = fetch(`/api/comments/${id}`, { method: 'GET', headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.get(`/comments/${id}`);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(comment => 
-	      	dispatch({type: FETCH_COMMENT, payload: comment})
-	    );
+	    result.then(response => dispatch({type: FETCH_COMMENT, payload: response.data}));
     };
 }
 
@@ -140,17 +137,15 @@ export function voteComment(id, option) {
     };
 }
 
-export function editComment(id, body) {
-	var data = { 
-		timestamp: Date.now(),
-		body 
-	};
-	const result = fetch(`/api/comments/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
+export function editComment(id, body, callback) {
+	var data = {
+		body,
+        timestamp: Date.now()
+	}
+	const result = instance.put(`/comments/${id}`, data);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(comment => 
-	      	dispatch({type: EDIT_COMMENT, payload: comment})
-	    );
+	    result.then(response => dispatch({type: EDIT_COMMENT, payload: response.data})
+	    ).then(() => callback());
     };
 }
 
