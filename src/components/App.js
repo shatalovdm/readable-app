@@ -31,7 +31,7 @@ class App extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		const {category} = nextProps.match.params;
-		if (this.props.match.params.category != category) {
+		if (this.props.match.params.category !== category) {
 			if (category) {
 				this.props.fetchPostsCategory(category);	
 			} else {

@@ -7,6 +7,7 @@ import reducers from './reducers';
 import thunk from 'redux-thunk';
 import App from './components/App';
 import PostView from './components/PostView';
+import { CreatePost, EditPost } from './components/PostForm';
 import '../style/style.css';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
@@ -18,7 +19,9 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={App} />
           <Route path="/categories/:category" component={App} />
-          <Route exact path="/posts/:postId" component={PostView} />
+          <Route exact path="/posts/new" component={CreatePost} />
+          <Route exact path="/posts/:postId/edit" component={EditPost} />
+          <Route path="/posts/:postId" component={PostView} />
           <Route path="/posts/:postId/comments/:commentId" component={PostView} />
         </Switch>
       </div>

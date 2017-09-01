@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import Item from './Item';
+import { Link } from 'react-router-dom';
+import Post from './Post';
 import { connect } from 'react-redux'; 
 
 export default class Posts extends Component {
@@ -15,7 +16,7 @@ export default class Posts extends Component {
 			if (!post.deleted) {
 				return (
 					<li className="list-group-item" key={post.id}>
-						<Item item={post} includeLink={true}/>
+						<Post post={post} includeLink={true}/>
 					</li>
 				);
 			}
@@ -37,7 +38,9 @@ export default class Posts extends Component {
 						</div>
 					</div>
   					<div className="pull-right">
-  						<button type="button" className="btn btn-default">New Post</button>
+  						<Link to="/posts/new">
+  							<button type="button" className="btn btn-default">New Post</button>
+  						</Link>
   					</div>
 				</div>
 				<ul className="list-group">

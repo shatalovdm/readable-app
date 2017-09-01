@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPost, deletePost } from '../actions';
-import Item from './Item';
+import Post from './Post';
 import Comments from './Comments';
 import { Link } from 'react-router-dom';
 
@@ -33,7 +33,7 @@ class PostView extends Component {
 					<div className="panel-body">
 						<ul className="list-inline pull-right">
 						  	<li>
-						  		<Link to="/edit">
+						  		<Link to={`/posts/${this.props.post.id}/edit`}>
 						  			<button className="btn btn-primary">Edit</button>
 						  		</Link>
 						  	</li>
@@ -41,7 +41,7 @@ class PostView extends Component {
 						  		<button onClick={this.onDeleteClick.bind(this)} className="btn btn-danger">Delete</button>
 						  	</li>
 						</ul>
-						<Item item={this.props.post} includeLink={false}/>
+						<Post post={this.props.post} includeLink={false}/>
 					</div>
 				</div>
 				<Comments postId={this.props.post.id}/>

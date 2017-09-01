@@ -4,7 +4,7 @@ import { FETCH_COMMENTS, VOTE_COMMENT, CREATE_COMMENT, DELETE_COMMENT, EDIT_COMM
 export default function(state = {}, action) {
 	switch (action.type) {
 		case FETCH_COMMENTS:
-			return Object.assign({}, state, _.mapKeys(action.payload, 'id'));
+			return Object.assign({}, state, _.mapKeys(action.payload.data, 'id'));
 		case VOTE_COMMENT:
 		case CREATE_COMMENT:
 		case EDIT_COMMENT:

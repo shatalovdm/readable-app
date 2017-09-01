@@ -52,21 +52,19 @@ export function fetchPost(id) {
     };
 }
 
-export function createPost(values) {
+export function createPost(values, callback) {
 	var data = {
-		id: guid(),
+		id: Guid.raw(),
         timestamp: Date.now(),
         title: values.title,
         body: values.body,
-        owner: values.owner,
+        author: values.author,
         category: values.category
-	};
-	const result = fetch('/api/posts', { method: 'POST', body: data, headers: { 'Authorization': AUTH_KEY }});
+	}
+	const result = instance.post('/posts', data);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(post => 
-	      	dispatch({type: CREATE_POST, payload: post})
-	    );
+	    result.then(response => dispatch({type: CREATE_POST, payload: response.data})
+	    ).then(() => callback());
     };
 }
 
@@ -78,18 +76,16 @@ export function votePost(id, option) {
     };
 }
 
-export function editPost(id, values) {
+export function editPost(id, values, callback) {
 	var data = { 
 		timestamp: Date.now(),
 		title: values.title,
 		body: values.body 
 	};
-	const result = fetch(`/api/posts/${id}`, { method: 'PUT', body: data, headers: { 'Authorization': AUTH_KEY }});
+	const result = instance.put(`/posts/${id}`);
     return (dispatch) => {
-	    result.then(response => response.json()
-	    ).then(post => 
-	      	dispatch({type: EDIT_POST, payload: post})
-	    );
+	    result.then(response => dispatch({type: EDIT_POST, payload: post})
+	    ).then(() => callback());
     };
 }
 
