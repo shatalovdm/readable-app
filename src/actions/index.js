@@ -82,9 +82,9 @@ export function editPost(id, values, callback) {
 		title: values.title,
 		body: values.body 
 	};
-	const result = instance.put(`/posts/${id}`);
+	const result = instance.put(`/posts/${id}`, data);
     return (dispatch) => {
-	    result.then(response => dispatch({type: EDIT_POST, payload: post})
+	    result.then(response => dispatch({type: EDIT_POST, payload: response.data})
 	    ).then(() => callback());
     };
 }

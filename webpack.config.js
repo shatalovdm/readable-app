@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const VENDOR_LIBS = [
   'react', 'lodash', 'redux', 'react-redux', 'react-router-dom',
-  'redux-thunk', 'redux-promise'
+  'redux-thunk', 'redux-form', 'axios', 'guid', 'react-dom'
 ];
 
 module.exports = {
@@ -15,8 +15,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: '[name].[chunkhash].js',
-    publicPath: '/'
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules: [

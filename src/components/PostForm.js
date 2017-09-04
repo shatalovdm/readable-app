@@ -1,24 +1,39 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { createPost, editPost } from '../actions';
+import { createPost, editPost, fetchPost } from '../actions';
 import { Field, reduxForm } from 'redux-form';
+
+const FIELDS = {
+	title: {
+		type: 'input',
+		label: 'Title'
+	},
+	body: {
+		type: 'textarea',
+		label: 'Content'
+	},
+	category: {
+		type: 'input',
+		label: 'Category'
+	},
+	author: {
+		type: 'input',
+		label: 'Author'
+	}
+}
 
 class PostForm extends Component {
 	renderField(field) {
-		const { meta: { touched, error } } = field;
-		const className = `form-group ${touched && error ? 'has-error' : ''}`;
+		const fieldConfig = FIELDS[field.input.name];
 		return (
-			<div className={className}>
-				<lable className="control-label" >{field.label}</lable>
-				<input
-					className="form-control"
-					type="text"
-					{...field.input}
-				/> 
-				<div className="help-block">
-					{touched ? error : ''}
-				</div>
+			<div className={`form-group ${field.meta.touched && field.meta.error ? 'has-error' : ''} `}>
+				<label>{fieldConfig.label}</label>
+				{(fieldConfig.type === 'textarea') ? 
+					<fieldConfig.type className='form-control' rows='3' type='text' {...field.input} /> :
+					<fieldConfig.type className='form-control' type='text' {...field.input} />
+				}
+				<div className='help-block'>{field.meta.touched ? field.meta.error : ""}</div>
 			</div>
 		);
 	}
@@ -35,6 +50,12 @@ class PostForm extends Component {
 		}
 	}
 
+	componentDidMount() {
+		if (this.props.form === 'editPost') {
+			this.props.fetchPost(this.props.match.params.postId);
+		}
+	}
+
 	render() {
 		const { handleSubmit } = this.props;
 
@@ -45,27 +66,10 @@ class PostForm extends Component {
 				</div>
 				<div className="panel-body">
 					<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-						<Field
-							label="Title"
-							name="title"
-							component={this.renderField}
-						/>
-						<Field
-							label="Text"
-							name="body"
-							component={this.renderField}
-						/>
-						<Field
-							label="Category"
-							name="category"
-							component={this.renderField}
-						/>
-						<Field
-							label="Author"
-							name="author"
-							component={this.renderField}
-							disabled={ this.props.form === 'editPost' }
-						/>
+						{ _.keys(FIELDS).map( key => {
+							return <Field name={key} key={key} component={this.renderField} />;
+							})
+						}
 						<button type="submit" className="btn btn-primary">Submit</button>
 					</form>
 				</div>
@@ -76,12 +80,11 @@ class PostForm extends Component {
 
 function validate(values) {
 	const errors = {};
-	if (!values.body) {
-		errors.body = "Enter a comment before submitting it!";
-	}
-	if (!values.author) {
-		errors.author = "Enter your name!";
-	}
+	_.each(FIELDS, (type, field) => {
+		if (!values[field]) {
+			errors[field] = `Enter a ${field}!`;
+		}
+	});
 
 	return errors;
 }
@@ -92,14 +95,18 @@ function mapStateToProps({ posts }, ownProps) {
 
 export const CreatePost = reduxForm({
 	validate,
-	form: 'createPost'
+	form: 'createPost',
+	fields: _.keys(FIELDS)
 })(
 	connect(null, { createPost })(PostForm)
 );
 
-export const EditPost = reduxForm({
-  validate,
-  form: 'editPost'
-})(
-	connect(mapStateToProps, { editPost })(PostForm)
-);
+export let EditPost = reduxForm({
+	validate,
+	form: 'editPost',
+	fields: _.keys(FIELDS),
+	enableReinitialize: true
+})(PostForm);
+
+EditPost = connect(mapStateToProps, { editPost, fetchPost })(EditPost);
+
