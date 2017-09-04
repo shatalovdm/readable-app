@@ -21,7 +21,11 @@ class PostView extends Component {
 
 	render() {
 		if (!this.props.post) {
-			return <div>Loading...</div>;
+			return <h4>Loading...</h4>;
+		}
+
+		if (this.props.post.deleted) {
+			return <h4>This post is no longer available...</h4>;
 		}
 
 		return (

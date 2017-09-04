@@ -21,7 +21,7 @@ ReactDOM.render(
           <Route path="/categories/:category" component={App} />
           <Route exact path="/posts/new" component={CreatePost} />
           <Route exact path="/posts/:postId/edit" component={EditPost} />
-          <Route path="/posts/:postId" component={PostView} />
+          <Route exact path="/posts/:postId" component={PostView} />
           <Route path="/posts/:postId/comments/:commentId" component={PostView} />
         </Switch>
       </div>

@@ -9,7 +9,7 @@ Some features that are currently implemented:
 - Vote up and down posts and comments
 - Edit and delete posts and comments
 
-This app is created using **React and Redux** libraries and many related package. 
+This app is created using **React and Redux** libraries and many related packages. 
 
 ## Getting started
 
