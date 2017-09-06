@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 class Post extends Component {
 
 	renderTitle() {
-		const { title, id} = this.props.post;
+		const { title, id, category} = this.props.post;
 		if (this.props.includeLink) {
 			return (
-				<Link to={`/posts/${id}`} > 
+				<Link to={`/${category}/${id}`} > 
 					<h5 className="list-group-item-heading">{title}</h5>
 				</Link>
 			);

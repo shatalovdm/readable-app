@@ -21,15 +21,18 @@ class PostView extends Component {
 
 	render() {
 		if (!this.props.post) {
-			return <h4>Loading...</h4>;
+			return <h5>Oops! This post does not exist...</h5>;
 		}
 
 		if (this.props.post.deleted) {
-			return <h4>This post is no longer available...</h4>;
+			return <h5>This post is no longer available...</h5>;
 		}
 
 		return (
-			<div>
+			<div className="post-view">
+				<button onClick={() => this.props.history.goBack()} className="btn btn-default">
+					Back
+				</button>
 				<div className="panel panel-default">
 					<div className="panel-heading">
 					    <h3 className="panel-title">Post</h3>
@@ -37,7 +40,7 @@ class PostView extends Component {
 					<div className="panel-body">
 						<ul className="list-inline pull-right">
 						  	<li>
-						  		<Link to={`/posts/${this.props.post.id}/edit`}>
+						  		<Link to={`${this.props.post.id}/edit`}>
 						  			<button className="btn btn-primary">Edit</button>
 						  		</Link>
 						  	</li>

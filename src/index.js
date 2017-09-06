@@ -7,6 +7,7 @@ import reducers from './reducers';
 import thunk from 'redux-thunk';
 import App from './components/App';
 import PostView from './components/PostView';
+import NotFound from './components/NotFound';
 import { CreatePost, EditPost } from './components/PostForm';
 import '../style/style.css';
 
@@ -18,11 +19,12 @@ ReactDOM.render(
       <div>
         <Switch>
           <Route exact path="/" component={App} />
-          <Route path="/categories/:category" component={App} />
-          <Route exact path="/posts/new" component={CreatePost} />
-          <Route exact path="/posts/:postId/edit" component={EditPost} />
-          <Route exact path="/posts/:postId" component={PostView} />
-          <Route path="/posts/:postId/comments/:commentId" component={PostView} />
+          <Route exact path="/new" component={CreatePost} />
+          <Route exact path="/:category" component={App} />
+          <Route exact path="/:category/:postId/edit" component={EditPost} />
+          <Route exact path="/:category/:postId" component={PostView} />
+          <Route path="/:category/:postId/comments/:commentId" component={PostView} />
+          <Route component={NotFound}/>
         </Switch>
       </div>
     </BrowserRouter>

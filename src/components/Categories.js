@@ -14,7 +14,7 @@ class Categories extends Component {
 		return _.map(this.props.categories, category => {
 			return (
 				<li className="list-group-item" key={category.name}>
-					<Link to={`/categories/${category.path}`}>
+					<Link to={`/${category.path}`}>
 						{category.name}
 					</Link>
 				</li>

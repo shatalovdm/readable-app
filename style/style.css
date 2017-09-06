@@ -12,3 +12,15 @@ main {
 	cursor: pointer;
 	font-size: 36px; 
 }
+
+.panel, .post-view {
+	margin: 0 auto;
+	max-width: 1200px;
+	margin-top: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+	* {
+		font-size: 12px;
+	}
+}

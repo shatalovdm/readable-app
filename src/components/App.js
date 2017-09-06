@@ -8,16 +8,7 @@ import Posts from './Posts';
 class App extends Component {
 
 	renderPosts() {
-		const {posts} = this.props;
-		if (_.keys(posts).length === 0) {
-			if (this.props.match.params.category) {
-				return <div>Could not find any post for this category.</div>;
-			} else {
-				return <div>Loading...</div>;
-			}
-
-		}
-		return <Posts posts={posts} />;
+		return <Posts posts={this.props.posts} />;
 	}
 
 	componentDidMount() {
