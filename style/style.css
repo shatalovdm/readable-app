@@ -1,13 +1,30 @@
+
+body {
+	font-family: Gotham SSm A,Gotham SSm B,HelveticaNeue,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+	color: #333D47;
+}
+
 .navbar-header > h3 {
 	margin: 10px 0 10px;
 	position: absolute;
     width: 100%;
     text-align: center;
 }
+.navbar-default {
+	background: #fe1b90;
+	color: white;
+	border: none;
+}
 main {
 	margin-top: 50px;
 }
 
+a {
+	color: #EA0B8C;
+}
+a:hover {
+	color: #EA0B8C;
+}
 .material-icons.md-36 {
 	cursor: pointer;
 	font-size: 36px; 
@@ -18,6 +35,42 @@ main {
 	max-width: 1200px;
 	margin-top: 20px;
 }
+.panel {
+	border: 1px solid #D8DFE6;
+}
+.list-group-item {
+	border-top: 1px solid #D8DFE6;
+}
+.panel-heading {
+	background-color: #D8DFE6 !important;
+	color: white;
+	border-bottom: 1px solid #352384;
+}
+.btn-default, .btn-primary {
+	border-color: #352384;
+	color: #333D47;
+	background-color: white;
+}
+.btn-danger {
+	border-color: #ba1499;
+	color: #333D47;
+	background-color: white;
+}
+.btn-danger:hover {
+	border-color: #ba1499;
+	color: #333D47;
+	background-color: white;
+}
+.btn-default:hover, .btn-primary:hover {
+	border-color: #352384;
+	color: #333D47;
+	background-color: white;
+}
+.btn-default:active, .btn-primary:active {
+	border-color: #352384;
+	background-color: white;
+}
+
 
 @media only screen and (max-width: 600px) {
 	* {
