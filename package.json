@@ -6,7 +6,9 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && webpack",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js"
+    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive",
+    "test:watch": "npm run test -- --watch"
   },
   "author": "Dmitry Shatalov",
   "license": "MIT",
@@ -32,12 +34,17 @@
     "chai": "^4.1.2",
     "chai-jquery": "^2.0.0",
     "css-loader": "^0.28.4",
+    "enzyme": "^2.9.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",
     "html-webpack-plugin": "^2.30.1",
-    "jsdom": "^11.2.0",
+    "jquery": "^3.2.1",
+    "jsdom": "^8.0.1",
     "mocha": "^3.5.0",
+    "nock": "^9.0.14",
     "react-addons-test-utils": "^15.6.0",
+    "redux-mock-store": "^1.2.3",
     "rimraf": "^2.6.1",
+    "sinon": "^3.2.1",
     "webpack": "^2.2.0-rc.0",
     "webpack-dev-middleware": "^1.12.0",
     "webpack-dev-server": "^2.2.0-rc.0"

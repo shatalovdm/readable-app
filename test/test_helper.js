@@ -1,34 +1,38 @@
-import React from 'react';
+import chai, { expect } from 'chai';
+import { sinon, spy } from 'sinon';
+import { mount, render, shallow } from 'enzyme';
 import jsdom from 'jsdom';
 import jquery from 'jquery';
+import React from 'react';
+import thunk from 'redux-thunk';
 import TestUtils from 'react-addons-test-utils';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import chai, { expect } from 'chai';
 import chaiJquery from 'chai-jquery';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
 import reducers from '../src/reducers';
+import { StaticRouter, Route } from 'react-router-dom';
+
+global.expect = expect;
+global.sinon = sinon;
+global.spy = spy;
+
+global.mount = mount;
+global.render = render;
+global.shallow = shallow;
+
 
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
-global.window = global.document.defaultView; 
-const $ = jquery(global.window);
+global.window = document.defaultView;
 
-function renderComponent(ComponentClass, props, state) {
-	const componentInstance = TestUtils.renderIntoDocument(
-		<Provider store={createStore(reducers, state)}>
-			<ComponentClass {...props} />
-		</Provider>
-	);
-	return $(ReactDOM.findDOMNode(componentInstance));
+function renderComponent(ComponentClass, path, posts, state) {
+	const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+    return (
+        <Provider store={createStoreWithMiddleware(reducers, state)}>
+        	<StaticRouter>
+            	<Route path={path} render={(props) => (<ComponentClass {...posts} />)} />
+            </StaticRouter>
+        </Provider>
+    );
 }
 
-$.fn.simulate = function(eventName, value) {
-	if (value) {
-		this.val(value);
-	}
-	TestUtils.Simulate[eventName](this[0]);
-}
-
-chaiJquery(chai, chai.util, $);
-
-export { renderComponent, expect };
+export { renderComponent };

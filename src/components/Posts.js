@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Post from './Post';
 import { withRouter } from 'react-router';
 
-class Posts extends Component {
+export class Posts extends Component {
 
 	state = {
 		sortBy: 'voteScore'
@@ -30,7 +30,7 @@ class Posts extends Component {
 		const posts = _.sortBy(this.props.posts, this.state.sortBy).reverse();
 		return posts.map(post => {
 			return (
-				<li className="list-group-item" key={post.id}>
+				<li className="post list-group-item" key={post.id}>
 					<Post post={post} includeLink={true}/>
 				</li>
 			);
@@ -38,6 +38,7 @@ class Posts extends Component {
 	}
 
 	render() {
+		console.log(this.props);
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">
@@ -46,14 +47,14 @@ class Posts extends Component {
 				<div className="panel-body">
 					<div className="pull-left">
 						<span>Sort By </span>
-						<div className="btn-group" role="group" aria-label="Sort By">
+						<div className="sort btn-group" role="group" aria-label="Sort By">
 						  	<button onClick={(e) => this.setState({	sortBy: e.target.value })} value="voteScore" type="button" className="btn btn-default">Vote</button>
 						  	<button onClick={(e) => this.setState({	sortBy: e.target.value })} value="timestamp" type="button" className="btn btn-default">Time</button>
 						</div>
 					</div>
   					<div className="pull-right">
   						<Link to="/new">
-  							<button type="button" className="btn btn-default">New Post</button>
+  							<button type="button" className="new-post btn btn-default">New Post</button>
   						</Link>
   					</div>
 				</div>

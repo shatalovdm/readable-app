@@ -5,7 +5,7 @@ import { fetchPostsCategory, fetchPosts } from '../actions';
 import Categories from './Categories';
 import Posts from './Posts';
 
-class App extends Component {
+export class App extends Component {
 
 	renderPosts() {
 		return <Posts posts={this.props.posts} />;
@@ -33,7 +33,7 @@ class App extends Component {
 
 	render() {
 		return (
-			<div className="row">
+			<div className="app row">
 				<div className="col-md-8">
 					{ this.renderPosts() }
 				</div>
