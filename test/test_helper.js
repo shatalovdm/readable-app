@@ -24,12 +24,12 @@ global.shallow = shallow;
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 
-function renderComponent(ComponentClass, path, posts, state) {
+function renderComponent(ComponentClass, path, props, state) {
 	const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
     return (
         <Provider store={createStoreWithMiddleware(reducers, state)}>
         	<StaticRouter>
-            	<Route path={path} render={(props) => (<ComponentClass {...posts} />)} />
+            	<Route path={path} render={() => (<ComponentClass {...props} />)} />
             </StaticRouter>
         </Provider>
     );

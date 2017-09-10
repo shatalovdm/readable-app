@@ -11,11 +11,11 @@ class Post extends Component {
 		if (this.props.includeLink) {
 			return (
 				<Link to={`/${category}/${id}`} > 
-					<h5 className="list-group-item-heading">{title}</h5>
+					<h5 className="post-title list-group-item-heading">{title}</h5>
 				</Link>
 			);
 		}
-		return <h5 className="list-group-item-heading">{title}</h5>;
+		return <h5 className="post-title list-group-item-heading">{title}</h5>;
 	}
 
 	componentDidMount() {
