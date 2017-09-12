@@ -10,7 +10,7 @@ import chaiJquery from 'chai-jquery';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from '../src/reducers';
-import { StaticRouter, Route } from 'react-router-dom';
+import { MemoryRouter, Route } from 'react-router-dom';
 
 global.expect = expect;
 global.sinon = sinon;
@@ -24,13 +24,16 @@ global.shallow = shallow;
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.window = document.defaultView;
 
-function renderComponent(ComponentClass, path, props, state) {
+function renderComponent(ComponentClass, path, props = {}, state) {
 	const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
     return (
         <Provider store={createStoreWithMiddleware(reducers, state)}>
-        	<StaticRouter>
-            	<Route path={path} render={() => (<ComponentClass {...props} />)} />
-            </StaticRouter>
+        	<MemoryRouter initialEntries={[path]}>
+        		<div>
+        			<Route component={() => <ComponentClass {...props} />} exact path='/' /> 
+        			<Route component={() => <ComponentClass {...props} />} exact path='/:category' /> 
+        		</div>
+            </MemoryRouter>
         </Provider>
     );
 }
