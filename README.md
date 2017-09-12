@@ -11,6 +11,8 @@ Some features that are currently implemented:
 
 This app is created using **React and Redux** libraries and many related packages. 
 
+This project is deployed to Heroku and available at this [link](https://readable-react-app.herokuapp.com/).
+
 ## Getting started
 
 1. Clone or download the repository:
