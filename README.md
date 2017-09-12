@@ -11,7 +11,9 @@ Some features that are currently implemented:
 
 This app is created using **React and Redux** libraries and many related packages. 
 
-This project is deployed to Heroku and available at this [link](https://readable-react-app.herokuapp.com/).
+## Demo
+
+This project is deployed to Heroku and available at this [link](https://readable-react-app.herokuapp.com/). Note: It may take a few seconds for the project to recover from a sleep mode.
 
 ## Getting started
 
