@@ -104,6 +104,5 @@ describe('Posts Reducer', () => {
 			const action = { type: DELETE_POST, payload: deletedPost };
 			expect(postsReducer(posts, action)).to.eql(result);
 		});	
-	})
-
+	});
 });
