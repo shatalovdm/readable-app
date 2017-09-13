@@ -4,7 +4,7 @@ import { votePost, voteComment, fetchComments } from '../actions';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'; 
 
-class Post extends Component {
+export class Post extends Component {
 
 	renderTitle() {
 		const { title, id, category} = this.props.post;

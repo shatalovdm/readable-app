@@ -58,7 +58,7 @@ export class Posts extends Component {
   					</div>
 				</div>
 				<ul className="list-group">
-					{this.props.posts && this.renderPosts()}
+					{this.renderPosts()}
 				</ul>
 			</div>
 		);
