@@ -52,4 +52,4 @@ function mapStateToProps(state, ownProps) {
 	return { comments:  _.pickBy(state.comments, function(o) { return o.parentId == ownProps.post.id; }) }
 }
 
-export default connect(mapStateToProps, { votePost, voteComment, fetchComments })(Post);
+export default connect(mapStateToProps, { votePost, fetchComments })(Post);
